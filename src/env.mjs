@@ -6,6 +6,10 @@ import { z } from "zod";
  */
 const server = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
+  DATABASE_URL: z.string(),
+  DATABASE_HOST: z.string(),
+  DATABASE_USERNAME: z.string(),
+  DATABASE_PASSWORD: z.string(),
   NEXTAUTH_SECRET:
     process.env.NODE_ENV === "production"
       ? z.string().min(1)
@@ -18,8 +22,8 @@ const server = z.object({
     process.env.VERCEL ? z.string().min(1) : z.string().url(),
   ),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
-  DISCORD_CLIENT_ID: z.string(),
-  DISCORD_CLIENT_SECRET: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
 });
 
 /**
@@ -37,11 +41,15 @@ const client = z.object({
  * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
  */
 const processEnv = {
+  DATABASE_URL: process.env.DATABASE_URL,
+  DATABASE_HOST: process.env.DATABASE_HOST,
+  DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+  DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-  DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
